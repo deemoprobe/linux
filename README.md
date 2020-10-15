@@ -1,2 +1,3 @@
-# linux
-linux
+# Linux
+
+Some notes and tips about linuxOS.
