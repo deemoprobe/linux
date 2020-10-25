@@ -6,9 +6,9 @@
 
 ```shell
 # 查看当前系统信息和磁盘大小
-[root@k8s-node2 ~]# cat /etc/redhat-release
+[root@ ~]# cat /etc/redhat-release
 CentOS Linux release 8.2.2004 (Core)
-[root@k8s-node2 ~]# df -h
+[root@ ~]# df -h
 Filesystem           Size  Used Avail Use% Mounted on
 devtmpfs             3.8G     0  3.8G   0% /dev
 tmpfs                3.8G     0  3.8G   0% /dev/shm
@@ -35,7 +35,7 @@ VMware 虚拟机设置里有两种方法扩充磁盘:
 
 ```shell
 # df 发现并没有扩充进去
-[root@k8s-node2 ~]# df -h
+[root@ ~]# df -h
 Filesystem           Size  Used Avail Use% Mounted on
 devtmpfs             3.8G     0  3.8G   0% /dev
 tmpfs                3.8G     0  3.8G   0% /dev/shm
@@ -46,7 +46,7 @@ tmpfs                3.8G     0  3.8G   0% /sys/fs/cgroup
 /dev/sda1            976M  198M  711M  22% /boot
 tmpfs                778M     0  778M   0% /run/user/0
 # fdisk 发现确实有150G 但实际上扩展的90G处于未分配的状态
-[root@k8s-node2 ~]# fdisk -l
+[root@ ~]# fdisk -l
 Disk /dev/sda: 150 GiB, 161061273600 bytes, 314572800 sectors
 ...
 
@@ -59,7 +59,7 @@ Device     Boot   Start       End   Sectors Size Id Type
 ### 2. 扩展分区
 
 ```shell
-[root@k8s-node2 ~]# fdisk /dev/sda
+[root@ ~]# fdisk /dev/sda
 
 Welcome to fdisk (util-linux 2.32.1).
 Changes will remain in memory only, until you decide to write them.
@@ -113,7 +113,7 @@ Syncing disks.
 
 ```shell
 # 发现新增了/dev/sda3 90G磁盘
-[root@k8s-node2 ~]# fdisk -l
+[root@ ~]# fdisk -l
 Disk /dev/sda: 150 GiB, 161061273600 bytes, 314572800 sectors
 ...
 
@@ -128,11 +128,11 @@ Device     Boot     Start       End   Sectors Size Id Type
 
 ```shell
 # 创建PV
-[root@k8s-node2 ~]# pvcreate /dev/sda3
+[root@ ~]# pvcreate /dev/sda3
   Physical volume "/dev/sda3" successfully created.
 
 # 查看 LV,显示 LV Path 为 /dev/cl/root, VG Name 为 cl
-[root@k8s-node2 ~]# lvdisplay
+[root@ ~]# lvdisplay
 ...
   --- Logical volume ---
   LV Path                /dev/cl/root
@@ -141,21 +141,21 @@ Device     Boot     Start       End   Sectors Size Id Type
 ...
 
 # 扩展VG
-[root@k8s-node2 ~]# vgextend cl /dev/sda3
+[root@ ~]# vgextend cl /dev/sda3
   Volume group "cl" successfully extended
 
 # 扩展LV
-[root@k8s-node2 ~]# lvextend /dev/cl/root /dev/sda3
+[root@ ~]# lvextend /dev/cl/root /dev/sda3
   Size of logical volume cl/root changed from <37.61 GiB (9628 extents) to <127.61 GiB (32667 extents).
   Logical volume cl/root successfully resized.
 
 # 查看文件系统类型
-[root@k8s-node2 ~]# blkid
+[root@ ~]# blkid
 /dev/mapper/cl-root: UUID="67702638-2db4-4676-aa41-583a827a6e27" TYPE="xfs"
 ...
 
 # 如果系统是用的XFS文件系统，需要要运行以下命令
-[root@k8s-node2 ~]# xfs_growfs /dev/cl/root
+[root@ ~]# xfs_growfs /dev/cl/root
 meta-data=/dev/mapper/cl-root    isize=512    agcount=4, agsize=2464768 blks
          =                       sectsz=512   attr=2, projid32bit=1
          =                       crc=1        finobt=1, sparse=1, rmapbt=0
@@ -176,7 +176,7 @@ resize2fs /dev/cl/root
 
 ```shell
 # 已经扩展成功
-[root@k8s-node2 ~]# df -h
+[root@ ~]# df -h
 Filesystem           Size  Used Avail Use% Mounted on
 devtmpfs             3.8G     0  3.8G   0% /dev
 tmpfs                3.8G     0  3.8G   0% /dev/shm
