@@ -2,6 +2,10 @@
 
 pscp可实现Windows和Linux服务器之间的远程文件传递
 
+[pscp下载链接](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
+
+下载后放在`C:\Windows\system32`下(因为这个目录是命令行界面缺省路径,以后打开命令行界面可直接使用pscp命令)，或者命令行界面进入存放`pscp.exe`文件的路径
+
 参数用法:  
       pscp [选项] [用户名@]主机:源 目标  
       pscp [选项] 源 [其他源...] [用户名@]主机:目标  
