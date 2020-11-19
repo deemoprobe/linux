@@ -6,6 +6,7 @@ pscp可实现Windows和Linux服务器之间的远程文件传递
 
 下载后放在`C:\Windows\system32`下(因为这个目录是命令行界面缺省路径,以后打开命令行界面可直接使用pscp命令)，或者命令行界面进入存放`pscp.exe`文件的路径
 
+```shell
 参数用法:  
       pscp [选项] [用户名@]主机:源 目标  
       pscp [选项] 源 [其他源...] [用户名@]主机:目标  
@@ -37,20 +38,29 @@ pscp可实现Windows和Linux服务器之间的远程文件传递
   -scp      强制使用 SCP 协议  
   -sshlog 文件  
   -sshrawlog 文件 记录协议详细日志到指定文件  
+```
 
 实例：  
 1.把Linux服务器上的/usr/soft目录内容取回Windows本地”d:\data\”目录
 
+```shell
     pscp -r root@IP:/usr/soft/ d:\data
+```
 
 2.把Linux服务器上的/usr/file.txt文件取回到Windows本地”d:\data\”目录
 
+```shell
     pscp root@IP:/usr/file.txt d:\data\
+```
 
 3.把Windows本地目录"d:\data"传输到Linux服务器的/usr/soft
 
+```shell
     pscp -r d:\data\ root@IP:/usr/soft/
+```
 
 4.把Windows本地文件"d:\data\file.txt"传输到Linux服务器的/usr/soft
 
+```shell
     pscp d:\data\file.txt root@IP:/usr/soft/
+```
