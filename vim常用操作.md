@@ -58,3 +58,14 @@ ctrl+r  恢复上一步撤销的操作
 :%s/old/new/g  new替换全文的old  
 :%s/old/new/gc new替换全文的old并给出提示
 ```
+
+6.翻页操作
+
+```shell
+# 整页翻页
+Ctrl+F Ctrl+B
+f就是forword b就是backward
+
+zz 让光标所在行居屏幕中央
+zt 让光标所杂的行居屏幕最上一行 t=top
+```
