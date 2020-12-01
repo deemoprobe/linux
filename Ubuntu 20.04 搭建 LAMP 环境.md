@@ -1,10 +1,10 @@
-# Ubuntu 20.04 搭建 LAMP 环境
+# 1. Ubuntu 20.04 搭建 LAMP 环境
 
 为渗透测试准备LAMP环境,或者用该环境部署web服务,LAMP=Linux+Apache+Mysql+Php
 
 本文Linux采用的是Ubuntu 20.04版本
 
-## 更新
+## 1.1. 更新
 
 ```shell
 #更新源
@@ -15,11 +15,11 @@ sudo apt-get upgrade
 sudo apt-get dist-upgrade
 ```
 
-## 部署Linux
+## 1.2. 部署Linux
 
 虚拟机安装部署Ubuntu 20.04系统,基础知识,不多介绍.
 
-## 部署Apache2
+## 1.3. 部署Apache2
 
 ```shell
 # 安装
@@ -32,7 +32,7 @@ sudo systemctl enable apache2
 
 apache2默认启用80端口,在浏览器直接访问IP,出现`Apache2 Ubuntu Default Page`表示安装成功
 
-## 部署MySQL
+## 1.4. 部署MySQL
 
 ```shell
 # 安装
@@ -110,11 +110,11 @@ mysql> CREATE USER 'sammy'@'%' IDENTIFIED WITH mysql_native_password BY 'passwor
 mysql> GRANT ALL PRIVILEGES ON *.* TO 'sammy'@'%' WITH GRANT OPTION;
 ```
 
-## MySQL数据库操作相关命令
+## 1.5. MySQL数据库操作相关命令
 
 上面已经安装好MySQL,下面是对相关操作进行总结,如果仅需要部署LAMP环境,直接跳到部署PHP即可.
 
-### mysql服务操作
+### 1.5.1. mysql服务操作
 
 ```shell
 # 1.启动mysql服务
@@ -143,7 +143,7 @@ mysql> grant select,insert,update,delete on mydb.* to test2@localhost identified
 mysql> show variables like 'character%';
 ```
 
-### 数据库操作
+### 1.5.2. 数据库操作
 
 ```shell
 # 创建数据库
@@ -158,7 +158,7 @@ select database();
 mysql> show databases;
 ```
 
-### 数据表操作
+### 1.5.3. 数据表操作
 
 ```shell
 # 查看当前数据库中所有表
@@ -184,7 +184,7 @@ rename table 原表名 to 新表名;
 show create table '表名';
 ```
 
-### 修改表结构
+### 1.5.4. 修改表结构
 
 ```shell
 # 1.更改表得的定义把某个栏位设为主键。
@@ -208,7 +208,7 @@ alter table tab_name change old_col new_col varchar(40);
 create table new_tab_name like old_tab_name;
 ```
 
-### 数据操作
+### 1.5.5. 数据操作
 
 ```shell
 # 查询
@@ -229,7 +229,7 @@ alter table students add isdelete bit default 0;
 update students isdelete=1 where …;
 ```
 
-### 数据的备份与恢复
+### 1.5.6. 数据的备份与恢复
 
 ```shell
 # 导入外部数据文本:
@@ -243,7 +243,7 @@ mysqldump -u [user] -p [password] databasename> filename (备份)
 mysql -u [user] -p [password] databasename < filename (恢复)
 ```
 
-### 卸载mysql
+### 1.5.7. 卸载mysql
 
 ```shell
 dpkg --list|grep mysql        #在终端中查看MySQL的依赖项
@@ -262,7 +262,7 @@ sudo apt autoremove
 sudo apt autoreclean(如果提示指令有误，就把reclean改成clean)
 ```
 
-## 部署PHP
+## 1.6. 部署PHP
 
 ```shell
 # 安装
@@ -276,7 +276,7 @@ sudo apt-get install libapache2-mod-php
 sudo apt-get install php-mysql
 ```
 
-## 测试LAMP环境
+## 1.7. 测试LAMP环境
 
 ```shell
 # 进入前端页面部署目录
